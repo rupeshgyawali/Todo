@@ -1,5 +1,6 @@
 from django import forms
 from .models import Todo
+from django.contrib.auth import models
 
 
 class TodoForm(forms.Form):
@@ -14,3 +15,13 @@ class TodoModelForm(forms.ModelForm):
 			'description': forms.Textarea(attrs={'rows': 5})
 		}
 
+
+class UserForm(forms.ModelForm):
+	password = forms.CharField(widget=forms.PasswordInput)
+	class Meta:
+		model = models.User
+		fields = ['username','email','password']
+
+class LoginForm(forms.Form):
+	username = forms.CharField(max_length=100)
+	password = forms.CharField(widget=forms.PasswordInput)

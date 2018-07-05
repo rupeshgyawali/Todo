@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Todo</title>
+  </head>
+  <body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<a class="navbar-brand ml-5 font-weight-bold" href="/todo/">Todo</a>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="navbarSupportedContent">
+		<ul class="navbar-nav ml-auto mr-5 px-5 justify-content-center">
+			<li class="nav-item">
+				<a class="nav-link  text-light" href="/todo/">Home</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link  text-light" href="#">About</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link  text-light" href="#">Login</a>
+			</li>
+		</ul>
+	</div>
+</nav>
+
+		<div class = "row">
+		<div class="col-sm-4 p-0 mt-5 ml-auto">
+			<div class = ' bg-light'>
+				 	<div class="container-fluid bg-info text-light">
+				 		<p class = "h1 text-center p-1">Todo</p>
+				 	</div>
+				 	<div class = "container">
+				 		<p class="text-center text-success my-3">Add to Todo list.</p>
+				 		<form method="POST">
+				 			{% csrf_token %}
+							{% for field in form %}
+							    <div class="fieldWrapper my-3">
+							        {{ field.errors }}
+							        {{ field.label_tag }}<br> 
+							        {{ field }}
+							        {% if field.help_text %}
+							        <p class="help">{{ field.help_text|safe }}</p>
+							        {% endif %}
+							    </div>
+							{% endfor %}
+							<input type="submit" value="Add Task" class="btn btn-success my-3 ml-1"> 		
+						</form>
+				 		
+				 	</div>
+			</div>
+
+			 </div>
+		<div class="col-sm-6 mt-5 ml-auto mr-auto">
+			<div class = 'bg-light p-2 mb-3'>
+				{% if todo_list %}
+						<div class = 'h2 text-danger p-2'>Remember to do:</div>
+					{% for todo in todo_list %}
+					<div class = 'border border-danger ml-5 mr-2 my-3 py-1 px-3'>
+						<div class='row mt-2'>
+							<div class = "col-sm-7"><p class='font-weight-bold text-uppercase'>{{ todo.title }}<p id='{{ todo.id }}' style = "display: none;" class='pl-3'>{{ todo.description|capfirst }}</p></p></div>
+							<div class = "col-sm-5">
+								<button type="button" class="btn btn-info" onclick="myFunction({{ todo.id }})">Details</button>
+								<a href="/todo/{{ todo.id }}/completed/">
+									<button type="button" class="btn btn-success">Completed</button>
+								</a>
+							</div>
+							<script>
+							function myFunction(id) {
+								myText = document.getElementById(id)
+								if (myText.style.display != 'none'){
+							  		myText.style.display= "none";
+								}else{
+									myText.style.display= 'block'
+								}
+							}
+							</script>
+						</div>
+					</div>
+
+					{% endfor %}
+				{% else %}
+					<div class = 'h2 text-success px-2'>All tasks are completed!</div>
+				{% endif %}
+				{% if completed_list %}
+						<div class = 'h2 text-success p-2'>Tasks completed:</div>
+					{% for todo in completed_list %}
+					<div class = 'border border-success ml-5 mr-2 my-3 py-1 px-3'>
+						<div class='row mt-2'>
+							<div class = "col-sm-7"><p class='font-weight-bold text-uppercase'>{{ todo.title }}<p id='{{ todo.id }}' style = "display: none;" class='pl-3'>{{ todo.description|capfirst }}</p></p></div>
+							<div class = "col-sm-5">
+								<button type="button" class="btn btn-info" onclick="myFunction({{ todo.id }})">Details</button>
+								<a href="/todo/{{ todo.id }}/delete/">
+									<button type="button" class="btn btn-danger">Delete</button>
+								</a>
+							</div>
+							<script>
+							function myFunction(id) {
+								myText = document.getElementById(id)
+								if (myText.style.display != 'none'){
+							  		myText.style.display= "none";
+								}else{
+									myText.style.display= 'block'
+								}
+							}
+							</script>
+						</div>
+					</div>
+
+					{% endfor %}
+				{% endif %}
+			</div>
+
+	</div>
+</div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>
+
+

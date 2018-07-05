@@ -25,11 +25,88 @@
 				<a class="nav-link  text-light" href="#">About</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link  text-light" href="#">Login</a>
+				{% if user.is_authenticated %}
+				<a class="nav-link  text-light" href="{% url 'Todo:logout' %}">LogOut</a>
+				{% else %}
+				<a class="nav-link  text-light" href="#" data-toggle="modal" data-target="#exampleModalCenter">Login</a>
+				{% endif %}
+			</li>
+			<li class="nav-item">
+				<a class="nav-link  text-light" href="#" data-toggle="modal" data-target="#exampleModalCenterregister">Register</a>
 			</li>
 		</ul>
 	</div>
 </nav>
+
+<!-- Modal login -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Login Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method = 'POST'>
+        	{% csrf_token %}
+        	{% for field in login_form %}
+                  <div class="form-group">
+                  	{{ field.errors }}
+                  	{{ field.label_tag }}<br> 
+                  	{{ field }}
+                  	{% if field.help_text %}
+                  	<p class="help">{{ field.help_text|safe }}</p>
+                  	{% endif %}
+                  </div>
+        	{% endfor %}
+      </div>
+      <div class="modal-footer">
+      	<input type="submit" name = 'loginForm' value="Login" class="btn btn-success my-3 ml-1">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Register -->
+<div class="modal fade" id="exampleModalCenterregister" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Registration Form</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method = 'POST'>
+        	{% csrf_token %}
+        	{% for field in register_form %}
+                  <div class="form-group">
+                  	{{ field.errors }}
+                  	{{ field.label_tag }}<br> 
+                  	{{ field }}
+                  	{% if field.help_text %}
+                  	<p class="help">{{ field.help_text|safe }}</p>
+                  	{% endif %}
+                  </div>
+        	{% endfor %}
+      </div>
+      <div class="modal-footer">
+      	<input type="submit" name = 'registerForm' value="Register" class="btn btn-success my-3 ml-1">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+  </form>
+    </div>
+  </div>
+</div>
+
+{% if user.is_authenticated %}
+<!-- Contents -->
 
 		<div class = "row">
 		<div class="col-sm-4 p-0 mt-5 ml-auto">
@@ -41,7 +118,7 @@
 				 		<p class="text-center text-success my-3">Add to Todo list.</p>
 				 		<form method="POST">
 				 			{% csrf_token %}
-							{% for field in form %}
+							{% for field in list_form %}
 							    <div class="fieldWrapper my-3">
 							        {{ field.errors }}
 							        {{ field.label_tag }}<br> 
@@ -51,7 +128,7 @@
 							        {% endif %}
 							    </div>
 							{% endfor %}
-							<input type="submit" value="Add Task" class="btn btn-success my-3 ml-1"> 		
+							<input type="submit" name = 'listForm' value="Add Task" class="btn btn-success my-3 ml-1"> 		
 						</form>
 				 		
 				 	</div>
@@ -120,7 +197,11 @@
 
 	</div>
 </div>
-
+{% else %}
+	
+	<div class = 'h1 text-info'>Please login!!</div>
+	
+{% endif %}
 
 
     <!-- Optional JavaScript -->

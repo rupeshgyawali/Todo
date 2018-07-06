@@ -15,7 +15,9 @@ def index(request):
 			if form.is_valid():
 				# title = form.cleaned_data['title']
 				# des = form.cleaned_data['description']
-				form.save()
+				todo_item = form.save(commit=False)
+				todo_item.user = request.user
+				todo_item.save()
 				return HttpResponseRedirect('/todo/')
 
 		if 'registerForm' in request.POST:
@@ -45,9 +47,13 @@ def index(request):
 					if user.is_active:
 						login(request,user)
 
+	if request.user.is_authenticated:
+		todo_list = request.user.todo_set.filter(is_completed__exact = False)
+		completed_list = request.user.todo_set.filter(is_completed__exact = True)
+	else:
+		todo_list = ''
+		completed_list = ''
 
-	todo_list = Todo.objects.filter(is_completed__exact = False)
-	completed_list = Todo.objects.filter(is_completed__exact = True)
 	list_form = TodoModelForm()
 	register_form = UserForm()
 	login_form = LoginForm()

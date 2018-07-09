@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <title>Todo</title>
+  </head>
+  <body class="bg-dark">
+    <div class="pl-5" style='font-size: 10vh;background: #4d555d4d;width: 100%;color: #f8f9fa;'>
+      TODO
+    </div>
+    <div class="container my-5 py-2">
+      <div class="row">
+        <div class="col-sm-6">
+          <p class="h1 text-success mx-2">Register</p>
+          <div class="p-3" style="color: #35d8ca;background-color: #32434899;box-shadow: 17px 18px #0000000d;">
+            
+             <form method="POST">
+
+              {% csrf_token %}
+              {{ register_form.as_p }}
+              <input type="submit" name="register_form" value = "Register" class="btn btn-outline-success">
+
+            </form>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <p class="h1 text-success mx-2">Already have an account?<br>Login</p>
+          <div class="p-3" style="color: #35d8ca;background-color: #32434899;box-shadow: 17px 18px #0000000d;">
+            <form method="POST">
+
+              {% csrf_token %}
+              {{ login_form.as_p }}
+              <input type="submit" name="login_form" value = "Login" class="btn btn-outline-success">
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

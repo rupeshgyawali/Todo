@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse,HttpResponseRedirect
 from .forms import TodoModelForm, UserForm, LoginForm
 from .models import Todo
@@ -51,8 +52,7 @@ def index(request):
 		todo_list = request.user.todo_set.filter(is_completed__exact = False)
 		completed_list = request.user.todo_set.filter(is_completed__exact = True)
 	else:
-		todo_list = ''
-		completed_list = ''
+		return HttpResponseRedirect('../')
 
 	list_form = TodoModelForm()
 	register_form = UserForm()
@@ -65,18 +65,20 @@ def index(request):
 										'todo_list': todo_list,
 										'completed_list': completed_list})
 
-
+@login_required(login_url="/todo/")
 def delete(request, pk):
 	obj = Todo.objects.get(pk=pk)
 	obj.delete()
 	return HttpResponseRedirect('/todo/')
 
+@login_required(login_url="/todo/")
 def completed(request, pk):
 	obj = Todo.objects.get(pk=pk)
 	obj.is_completed = True
 	obj.save()
 	return HttpResponseRedirect('/todo/')
 
+@login_required(login_url="/todo/")
 def user_logout(request):
 	logout(request)
 	return HttpResponseRedirect('/todo/')

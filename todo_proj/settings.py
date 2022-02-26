@@ -21,12 +21,12 @@ TEMP_DIR = os.path.join(BASE_DIR,'todo_proj/templates/')
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rhs-aj&ggm8=#ddvd)b1xc0w-o)f0qbo*v1%wyrbx=o1^li-iw'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['DEBUG']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['todo-try.herokuapp.com']
 
 
 # Application definition
@@ -120,3 +120,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+import django_heroku
+django_heroku.settings(locals())
